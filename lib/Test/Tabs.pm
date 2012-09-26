@@ -6,7 +6,7 @@ use warnings;
 
 BEGIN {
 	$Test::Tabs::AUTHORITY = 'cpan:TOBYINK';
-	$Test::Tabs::VERSION   = '0.001';
+	$Test::Tabs::VERSION   = '0.002';
 }
 
 use Test::Builder;
