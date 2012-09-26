@@ -4,3 +4,8 @@
 	issued  2012-09-20;
 	label   "Initial release".
 
+`Test-Tabs 0.002 cpan:TOBYINK`
+	issued  2012-09-26;
+	changeset [
+		item "Allow lines to jump *down* indent, as this is occasionlly useful for statement modifiers."^^Change;
+	].

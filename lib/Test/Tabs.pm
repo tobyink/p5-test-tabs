@@ -87,6 +87,8 @@ sub tabs_ok
 		last if (/^\s*(__END__|__DATA__)/);
 		
 		my ($indent, $remaining) = (/^([\s\x20]*)(.*)/);
+		next unless length $remaining;
+		
 		if ($indent =~ /\x20/)
 		{
 			$Test->ok(0, $test_txt . " had space indent on line $line");
@@ -102,7 +104,7 @@ sub tabs_ok
 			$Test->ok(0, $test_txt . " had trailing whitespace on line $line");
 			return 0;
 		}
-		if (abs($last_indent - length $indent) > 1)
+		if (length($indent) - $last_indent > 1)
 		{
 			$Test->ok(0, $test_txt . " had jumping indent on line $line");
 			return 0;
@@ -169,6 +171,12 @@ sub _untaint
 	return wantarray ? @untainted : $untainted[0];
 }
 
+sub __silly {
+	# this is just for testing really.
+	print "$_\n"
+		for 1..3;
+}
+
 1;
 
 __END__
@@ -199,7 +207,7 @@ modules, etc) for the presence of tabs.
 
 In particular, it checks that all indentation is done using tabs, not
 spaces; alignment is done via spaces, not tabs; indentation levels
-never jump (e.g. going from 1 tab indent to 3 tab indent without an
+never jump up (e.g. going from 1 tab indent to 3 tab indent without an
 intervening 2 tab indent); and there is no trailing whitespace on any
 line (though lines may consist entirely of whitespace).
 
