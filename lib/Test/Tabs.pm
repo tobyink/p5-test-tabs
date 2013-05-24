@@ -79,12 +79,19 @@ sub tabs_ok
 	open my $fh, $file or do { $Test->ok(0, $test_txt); $Test->diag("Could not open $file: $!"); return; };
 	my $line        = 0;
 	my $last_indent = 0;
+	my $ignoring    = 0;
 	while (<$fh>)
 	{
 		$line++;
+		
+		my $ignore_line = /##\s*WS/i;
+		$ignoring = 1 if /##\s*BEGIN\s*WS/i;
+		$ignoring = 0 if /##\s*END\s*WS/i;
+		
 		next if (/^\s*#/);
 		next if (/^\s*=.+/ .. (/^\s*=(cut|back|end)/ || eof($fh)));
 		last if (/^\s*(__END__|__DATA__)/);
+		next if $ignoring || $ignore_line;
 		
 		my ($indent, $remaining) = (/^([\s\x20]*)(.*)/);
 		next unless length $remaining;
@@ -174,10 +181,13 @@ sub _untaint
 sub __silly {
 	# this is just for testing really.
 	print "$_\n"
-		for 1..3;
+	  for 1..3;  ##WS
 }
 
-1;
+
+##BEGIN WS
+  1;
+##END WS
 
 __END__
 
@@ -213,6 +223,10 @@ line (though lines may consist entirely of whitespace).
 
 Comment lines and pod are ignored. (A future version may also ignore
 heredocs.)
+
+A trailing comment C<< ##WS >> can be used to ignore all whitespace
+rules for that line. C<< ##BEGIN WS >> can be used to begin ignoring
+whitespace rules for all following lines until C<< ##END WS >> is seen.
 
 =head2 Functions
 
@@ -253,7 +267,7 @@ Large portions stolen from L<Test::NoTabs> by Nick Gerakines.
 
 =head1 COPYRIGHT AND LICENCE
 
-This software is copyright (c) 2012 by Toby Inkster.
+This software is copyright (c) 2012-2013 by Toby Inkster.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
