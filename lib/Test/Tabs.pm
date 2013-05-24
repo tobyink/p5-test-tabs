@@ -70,16 +70,20 @@ sub _all_files
 	find( $find_arg, @base_dirs);
 	return @found;
 }
-
+ 
 sub tabs_ok
 {
 	my $file = shift;
-	my $test_txt = shift || "OK tabs in '$file'";
 	$file = _module_to_path($file);
-	open my $fh, $file or do { $Test->ok(0, $test_txt); $Test->diag("Could not open $file: $!"); return; };
+	open my $fh, $file or do {
+		$Test->ok(0, "whitespace for $file");
+		$Test->diag("Could not open $file: $!");
+		return;
+	};
 	my $line        = 0;
 	my $last_indent = 0;
 	my $ignoring    = 0;
+	my $ok          = 1;
 	while (<$fh>)
 	{
 		$line++;
@@ -98,28 +102,28 @@ sub tabs_ok
 		
 		if ($indent =~ /\x20/)
 		{
-			$Test->ok(0, $test_txt . " had space indent on line $line");
-			return 0;
+			$Test->diag("$file had space indent on line $line");
+			$ok = 0;
 		}
 		if ($remaining =~ /\t/)
 		{
-			$Test->ok(0, $test_txt . " had non-indenting tab on line $line");
-			return 0;
+			$Test->diag("$file had non-indenting tab on line $line");
+			$ok = 0;
 		}
 		if ($remaining =~ /\s$/)
 		{
-			$Test->ok(0, $test_txt . " had trailing whitespace on line $line");
-			return 0;
+			$Test->diag("$file had trailing whitespace on line $line");
+			$ok = 0;
 		}
 		if (length($indent) - $last_indent > 1)
 		{
-			$Test->ok(0, $test_txt . " had jumping indent on line $line");
-			return 0;
+			$Test->diag("$file had jumping indent on line $line");
+			$ok = 0;
 		}
 		$last_indent = length $indent;
 	}
-	$Test->ok(1, $test_txt);
-	return 1;
+	$Test->ok($ok, "whitespace for $file");
+	return $ok;
 }
 
 sub all_perl_files_ok
@@ -146,9 +150,9 @@ sub _is_perl_script
 	my $first = <$fh>;
 	return 1 if defined $first && ($first =~ $PERL_PATTERN);
 	return;
-}
+ }
 
-sub _module_to_path
+sub _module_to_path 
 {
 	my $file = shift;
 	return $file unless ($file =~ /::/);
