@@ -154,7 +154,7 @@ sub _is_perl_script
 {
 	my $file = shift;
 	return 1 if $file =~ /\.pl$/i;
-	return 1 if $file =~ /\.pm$/i;
+	return 1 if $file =~ /\.psgi$/;
 	return 1 if $file =~ /\.t$/;
 	open (my $fh, $file) or return;
 	my $first = <$fh>;
