@@ -128,6 +128,7 @@ sub tabs_ok
 
 sub all_perl_files_ok
 {
+	local $Test::Builder::Level = $Test::Builder::Level + 1;
 	my @files = _all_perl_files( @_ );
 	_make_plan();
 	foreach my $file ( sort @files )
