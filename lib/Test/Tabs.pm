@@ -191,6 +191,12 @@ sub __silly {
 
 __END__
 
+=pod
+
+=encoding utf-8
+
+=for stopwords whitespace heredocs
+
 =head1 NAME
 
 Test::Tabs - check the presence of tabs in your project
