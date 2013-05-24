@@ -9,3 +9,14 @@
 	changeset [
 		item "Allow lines to jump *down* indent, as this is occasionlly useful for statement modifiers."^^Change;
 	].
+
+`Test-Tabs 0.003 cpan:TOBYINK`
+	issued  2013-05-24;
+	changeset [
+		item "Implement `##WS` comment to ignore whitespace rules for one line."^^Addition;
+		item "Implement `## no Test::Tabs` and `## use Test::Tabs` comments to ignore whitespace rules for a block of lines."^^Addition;
+		item "Implement `## skip Test::Tabs` to skip whitespace tests for a file."^^Addition;
+		item "Also test files named *.psgi."^^Addition;
+		item "Report all whitespace problems in a file; not just the first."^^Change;
+		item "Properly report the line number of test failures."^^Bugfix;
+	].

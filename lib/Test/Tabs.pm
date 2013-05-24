@@ -6,7 +6,7 @@ use warnings;
 
 BEGIN {
 	$Test::Tabs::AUTHORITY = 'cpan:TOBYINK';
-	$Test::Tabs::VERSION   = '0.002';
+	$Test::Tabs::VERSION   = '0.003';
 }
 
 use Test::Builder;
@@ -258,8 +258,8 @@ but it must be used I<before> the first whitespace rule violation.
 Applies C<< tabs_ok() >> to all perl files found in C<< @directories >>
 recursively. If no C<< @directories >> are given, the starting point is
 one level above the current running script, that should cover all the
-files of a typical CPAN distribution. A perl file is *.pl or *.pm or *.t
-or a file starting with C<< #!...perl >>.
+files of a typical CPAN distribution. A perl file is *.pl, *.pm, *.psgi,
+*.t, or a file starting with C<< #!...perl >>.
 
 =item C<< tabs_ok( $file, $text ) >>
 
