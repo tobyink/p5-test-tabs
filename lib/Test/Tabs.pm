@@ -92,6 +92,14 @@ sub tabs_ok
 		$ignoring = 1 if /#\s*no\s*Test::Tabs/;
 		$ignoring = 0 if /#\s*use\s*Test::Tabs/;
 		
+		if (/#\s*skip\s*Test::Tabs/)
+		{
+			$ok
+				? $Test->skip($file)
+				: $Test->ok($ok, "$file contains skip comment, but problems already encountered");
+			return $ok;
+		}
+		
 		next if (/^\s*#/);
 		next if (/^\s*=.+/ .. (/^\s*=(cut|back|end)/ || eof($fh)));
 		last if (/^\s*(__END__|__DATA__)/);
@@ -146,14 +154,15 @@ sub _is_perl_script
 {
 	my $file = shift;
 	return 1 if $file =~ /\.pl$/i;
+	return 1 if $file =~ /\.pm$/i;
 	return 1 if $file =~ /\.t$/;
 	open (my $fh, $file) or return;
 	my $first = <$fh>;
 	return 1 if defined $first && ($first =~ $PERL_PATTERN);
 	return;
- }
+}
 
-sub _module_to_path 
+sub _module_to_path
 {
 	my $file = shift;
 	return $file unless ($file =~ /::/);
@@ -188,7 +197,6 @@ sub __silly {
 	print "$_\n"
 	  for 1..3;  ##WS
 }
-
 
 ## no Test::Tabs
   1;
@@ -238,7 +246,8 @@ heredocs.)
 A trailing comment C<< ##WS >> can be used to ignore all whitespace
 rules for that line. C<< ## no Test::Tabs >> can be used to begin ignoring
 whitespace rules for all following lines until C<< ## use Test::Tabs >> is
-seen.
+seen. C<< ## skip Test::Tabs >> tells Test::Tabs to skip the current file,
+but it must be used I<before> the first whitespace rule violation.
 
 =head2 Functions
 
