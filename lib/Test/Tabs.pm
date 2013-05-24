@@ -85,8 +85,8 @@ sub tabs_ok
 		$line++;
 		
 		my $ignore_line = /##\s*WS/i;
-		$ignoring = 1 if /##\s*BEGIN\s*WS/i;
-		$ignoring = 0 if /##\s*END\s*WS/i;
+		$ignoring = 1 if /#\s*no\s*Test::Tabs/;
+		$ignoring = 0 if /#\s*use\s*Test::Tabs/;
 		
 		next if (/^\s*#/);
 		next if (/^\s*=.+/ .. (/^\s*=(cut|back|end)/ || eof($fh)));
@@ -185,9 +185,9 @@ sub __silly {
 }
 
 
-##BEGIN WS
+## no Test::Tabs
   1;
-##END WS
+## use Test::Tabs
 
 __END__
 
@@ -225,8 +225,9 @@ Comment lines and pod are ignored. (A future version may also ignore
 heredocs.)
 
 A trailing comment C<< ##WS >> can be used to ignore all whitespace
-rules for that line. C<< ##BEGIN WS >> can be used to begin ignoring
-whitespace rules for all following lines until C<< ##END WS >> is seen.
+rules for that line. C<< ## no Test::Tabs >> can be used to begin ignoring
+whitespace rules for all following lines until C<< ## use Test::Tabs >> is
+seen.
 
 =head2 Functions
 
