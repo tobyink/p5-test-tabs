@@ -105,6 +105,13 @@ sub tabs_ok
 		last if (/^\s*(__END__|__DATA__)/);
 		next if $ignoring || $ignore_line;
 		
+		
+		if (/^\s*$/)
+		{
+			$Test->diag("$file had line containing only whitespaces, on line $line");
+			$ok = 0;
+		}
+
 		my ($indent, $remaining) = (/^([\s\x20]*)(.*)/);
 		next unless length $remaining;
 		
