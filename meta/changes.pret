@@ -20,3 +20,10 @@
 		item "Report all whitespace problems in a file; not just the first."^^Change;
 		item "Properly report the line number of test failures."^^Bugfix;
 	].
+
+`Test-Tabs 0.004 cpan:TOBYINK`
+	issued    2014-09-10;
+	changeset [
+		item "Switch to Dist::Inkt."^^Packaging;
+	].
+
