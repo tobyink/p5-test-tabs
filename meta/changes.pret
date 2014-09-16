@@ -31,4 +31,5 @@
 	issued    2014-09-16;
 	changeset [
 		item "Add repo link."^^Packaging;
+		item "Fix test case so it no longer attempts to test our own Makefile.PL (which has a space-indented portion)."^^Tests;
 	].
