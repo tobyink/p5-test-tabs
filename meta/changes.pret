@@ -27,3 +27,8 @@
 		item "Switch to Dist::Inkt."^^Packaging;
 	].
 
+`Test-Tabs 0.005 cpan:TOBYINK`
+	issued    2014-09-16;
+	changeset [
+		item "Add repo link."^^Packaging;
+	].
