@@ -8,6 +8,7 @@
 	:homepage             <https://metacpan.org/release/Test-Tabs>;
 	:download-page        <https://metacpan.org/release/Test-Tabs>;
 	:bug-database         <http://rt.cpan.org/Dist/Display.html?Queue=Test-Tabs>;
+	:repository           [ a :GitRepository; :browse <https://github.com/tobyink/p5-test-tabs> ];
 	:created              2012-09-20;
 	:license              <http://dev.perl.org/licenses/>;
 	:maintainer           cpan:TOBYINK;
